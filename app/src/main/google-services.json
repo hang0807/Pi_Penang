@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "392759808794",
+    "firebase_url": "https://pi-penang.firebaseio.com",
+    "project_id": "pi-penang",
+    "storage_bucket": "pi-penang.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392759808794:android:a6cd0313d3fba16c",
+        "android_client_info": {
+          "package_name": "com.example.pi_penang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392759808794-iuh1hgjlueoqvmbssn2qja3fggob2k74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ8WJN0bCUrNkPhjE6um1EojOygGy4KO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392759808794-iuh1hgjlueoqvmbssn2qja3fggob2k74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

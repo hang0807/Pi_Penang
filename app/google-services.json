@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "739839721053",
+    "firebase_url": "https://pipenang-7593d.firebaseio.com",
+    "project_id": "pipenang-7593d",
+    "storage_bucket": "pipenang-7593d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739839721053:android:a6cd0313d3fba16c",
+        "android_client_info": {
+          "package_name": "com.example.pi_penang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739839721053-i8lmnk2mbn850glqoj197ub21aof7i5q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pi_penang",
+            "certificate_hash": "8f3aa9db45b859dbf1542e0011a8b81362a7b241"
+          }
+        },
+        {
+          "client_id": "739839721053-aup6sqmdkp67oikqqm84b3tpgajitlvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoyZmX_nIkJB9TdDyp7ihkOYVkx91KO6Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739839721053-aup6sqmdkp67oikqqm84b3tpgajitlvn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
