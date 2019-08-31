@@ -1,5 +1,6 @@
 package com.example.pi_penang;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -117,6 +118,9 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 surpriseYou();
                 break;
             case R.id.orderButton:
+                Intent i = new Intent(cooker_info.this, final_order.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
                 break;
         }
 

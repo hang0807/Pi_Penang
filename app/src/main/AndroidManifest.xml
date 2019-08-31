@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".cooker_info"></activity>
+        <activity android:name=".final_order"></activity>
+        <activity android:name=".cooker_info" />
         <activity android:name=".UserProfile" />
         <activity android:name=".Users_info" />
         <activity android:name=".Pi_laundry" />
