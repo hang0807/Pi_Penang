@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,19 +22,30 @@ import java.util.Random;
 
 public class cooker_info extends AppCompatActivity implements View.OnClickListener {
 
-    boolean deliveryDemand = Pi_laundry.isDeliveryDemand();
     String categoryNeeded = Pi_laundry.theCategory();
-    String timeRange = Pi_laundry.theTimeRange();
-    String amountRange = Pi_laundry.theAmountRange();
     TextView attemptTextView;
     String finalNumber ;
     Random newRandom = new Random();
     TextView quantityOne;
     TextView quantityTwo;
     TextView quantityThree;
+    TextView menu1;
+    TextView menu2;
+    TextView menu3;
+    EditText sideNotes;
     int recorder;
     int secondRecorder;
     int counter = 2;
+    static String pic;
+    static String cookerName;
+    static String phoneNumber;
+    static String cookAddress;
+    static String quantity1;
+    static String quantity2;
+    static String quantity3;
+    static String menuOne;
+    static String menuTwo;
+    static String menuThree;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
@@ -45,12 +57,15 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
 
         findViewById(R.id.addButton1).setOnClickListener(this);
         findViewById(R.id.addButton2).setOnClickListener(this);
-        findViewById(R.id.addButton2).setOnClickListener(this);
+        findViewById(R.id.addButton3).setOnClickListener(this);
         findViewById(R.id.minusButton1).setOnClickListener(this);
         findViewById(R.id.minusButton2).setOnClickListener(this);
         findViewById(R.id.minusButton3).setOnClickListener(this);
         findViewById(R.id.surpriseButton).setOnClickListener(this);
         findViewById(R.id.orderButton).setOnClickListener(this);
+        menu1 = findViewById(R.id.menu1);
+        menu2 = findViewById(R.id.menu2);
+        menu3 = findViewById(R.id.menu3);
     }
 
     @Override
@@ -67,9 +82,16 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 userNumber += 1;
                 String stringUserCount = String.valueOf(userNumber);
                 recorder = userNumber;
-                //cookerNameEditText.setText(stringCount);
-                String pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Photo").getValue().toString();
-                String cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Name").getValue().toString();
+                pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Photo").getValue().toString();
+                cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Name").getValue().toString();
+                phoneNumber = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Phone Number").getValue().toString();
+                cookAddress = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Address").getValue().toString();
+                menuOne = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("1").getValue().toString();
+                menuTwo = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("2").getValue().toString();
+                menuThree = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("3").getValue().toString();
+                menu1.setText(menuOne);
+                menu2.setText(menuTwo);
+                menu3.setText(menuThree);
                 cookerNameEditText.setText(cookerName);
                 Picasso.with(getApplicationContext()).load(pic).into(img);
             }
@@ -118,9 +140,8 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 surpriseYou();
                 break;
             case R.id.orderButton:
-                Intent i = new Intent(cooker_info.this, final_order.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+                orderButton();
+                finish();
                 break;
         }
 
@@ -147,6 +168,82 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    public static String getPic()
+    {
+        return pic;
+    }
+
+    public static String getCookerName()
+    {
+        return cookerName;
+    }
+
+    public static String getPhoneNumber()
+    {
+        return phoneNumber;
+    }
+
+    public static String getAddress()
+    {
+        return cookAddress;
+    }
+
+    public static String getQuantity1()
+    {
+        return quantity1;
+    }
+
+    public static String getQuantity2()
+    {
+        return quantity2;
+    }
+
+    public static String getQuantity3()
+    {
+        return quantity3;
+    }
+
+    public static String getMenuOne()
+    {
+        return menuOne;
+    }
+
+    public static String getMenuTwo()
+    {
+        return menuTwo;
+    }
+
+    public static String getMenuThree()
+    {
+        return menuThree;
+    }
+
+    public void orderButton(){
+        quantityOne = findViewById(R.id.quantityOne);
+        quantityTwo = findViewById(R.id.quantityTwo);
+        quantityThree = findViewById(R.id.quantityThree);
+        String quantity1final = quantityOne.getText().toString();
+        String quantity2final = quantityTwo.getText().toString();
+        String quantity3final = quantityThree.getText().toString();
+
+        if (quantity1final.equals("0") && quantity2final.equals("0") && quantity3final.equals("0")) {
+            Toast.makeText(getApplicationContext(),"Please clarify the quantity of your food!",Toast.LENGTH_LONG).show();
+        }else{
+            quantity1 = quantityOne.getText().toString();
+            quantity2 = quantityTwo.getText().toString();
+            quantity3 = quantityThree.getText().toString();
+
+            menuOne = menu1.getText().toString();
+            menuTwo = menu2.getText().toString();
+            menuThree = menu3.getText().toString();
+
+            Intent i = new Intent(cooker_info.this, final_order.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
+    }
+
+
     public void surpriseYou()
     {
         quantityOne = findViewById(R.id.quantityOne);
@@ -172,9 +269,16 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                     secondRecorder = userNumber;
                     String stringUserCount = String.valueOf(userNumber);
                     attemptTextView = findViewById(R.id.attemptTextView);
-                    attemptTextView.setText(stringUserCount);
-                    String pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Photo").getValue().toString();
+                    pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Photo").getValue().toString();
                     String cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Name").getValue().toString();
+                    phoneNumber = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Phone Number").getValue().toString();
+                    cookAddress = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Address").getValue().toString();
+                    menuOne = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("1").getValue().toString();
+                    menuTwo = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("2").getValue().toString();
+                    menuThree = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("3").getValue().toString();
+                    menu1.setText(menuOne);
+                    menu2.setText(menuTwo);
+                    menu3.setText(menuThree);
                     cookerNameEditText.setText(cookerName);
                     Picasso.with(getApplicationContext()).load(pic).into(img);
                     counter -= 1;
@@ -183,14 +287,25 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                     quantityOne.setText("0");
                     quantityTwo.setText("0");
                     quantityThree.setText("0");
+                    sideNotes = findViewById(R.id.sideNotes);
+                    sideNotes.setText("");
+                    Toast.makeText(getApplicationContext(),"We found you another cook!",Toast.LENGTH_LONG).show();
+
                 }
                 else if(userNumber != recorder && counter == 1 && userNumber!= secondRecorder){
                     secondRecorder = userNumber;
                     String stringUserCount = String.valueOf(userNumber);
                     attemptTextView = findViewById(R.id.attemptTextView);
-                    attemptTextView.setText(stringUserCount);
-                    String pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Photo").getValue().toString();
-                    String cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Name").getValue().toString();
+                    pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Photo").getValue().toString();
+                    cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Name").getValue().toString();
+                    phoneNumber = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Phone Number").getValue().toString();
+                    cookAddress = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Address").getValue().toString();
+                    menuOne = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("1").getValue().toString();
+                    menuTwo = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("2").getValue().toString();
+                    menuThree = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("3").getValue().toString();
+                    menu1.setText(menuOne);
+                    menu2.setText(menuTwo);
+                    menu3.setText(menuThree);
                     cookerNameEditText.setText(cookerName);
                     Picasso.with(getApplicationContext()).load(pic).into(img);
                     counter -= 1;
@@ -199,10 +314,13 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                     quantityOne.setText("0");
                     quantityTwo.setText("0");
                     quantityThree.setText("0");
+                    sideNotes.findViewById(R.id.sideNotes);
+                    sideNotes.setText("");
+                    Toast.makeText(getApplicationContext(),"We found you another cook!",Toast.LENGTH_LONG).show();
                 }
                 else if(counter == 0)
                 {
-                    Toast.makeText(getApplicationContext(),"Not more surprise today!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"No more surprise today!",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -212,5 +330,8 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+
     }
+
+
 }
