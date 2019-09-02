@@ -22,7 +22,9 @@ import java.util.Random;
 
 public class cooker_info extends AppCompatActivity implements View.OnClickListener {
 
-    String categoryNeeded = Pi_laundry.theCategory();
+    static String categoryNeeded = Pi_laundry.theCategory();
+    static String stringUserCount;
+    static String sideNoteFinal;
     TextView attemptTextView;
     String finalNumber ;
     Random newRandom = new Random();
@@ -63,6 +65,8 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
         findViewById(R.id.minusButton3).setOnClickListener(this);
         findViewById(R.id.surpriseButton).setOnClickListener(this);
         findViewById(R.id.orderButton).setOnClickListener(this);
+        sideNotes = findViewById(R.id.sideNotes);
+        sideNoteFinal = sideNotes.getText().toString();
         menu1 = findViewById(R.id.menu1);
         menu2 = findViewById(R.id.menu2);
         menu3 = findViewById(R.id.menu3);
@@ -80,7 +84,7 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 int newCount=(int)count;
                 int userNumber = newRandom.nextInt(newCount);
                 userNumber += 1;
-                String stringUserCount = String.valueOf(userNumber);
+                stringUserCount = String.valueOf(userNumber);
                 recorder = userNumber;
                 pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Photo").getValue().toString();
                 cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Name").getValue().toString();
@@ -141,7 +145,6 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.orderButton:
                 orderButton();
-                finish();
                 break;
         }
 
@@ -218,6 +221,12 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
         return menuThree;
     }
 
+    public static String getCategoryNeeded(){return categoryNeeded;}
+
+    public static String getStringUserCount(){return stringUserCount;}
+
+    public static String getSideNotes(){return sideNoteFinal;}
+
     public void orderButton(){
         quantityOne = findViewById(R.id.quantityOne);
         quantityTwo = findViewById(R.id.quantityTwo);
@@ -228,6 +237,7 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
 
         if (quantity1final.equals("0") && quantity2final.equals("0") && quantity3final.equals("0")) {
             Toast.makeText(getApplicationContext(),"Please clarify the quantity of your food!",Toast.LENGTH_LONG).show();
+
         }else{
             quantity1 = quantityOne.getText().toString();
             quantity2 = quantityTwo.getText().toString();
@@ -238,8 +248,8 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
             menuThree = menu3.getText().toString();
 
             Intent i = new Intent(cooker_info.this, final_order.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+            finish();
         }
     }
 
@@ -267,7 +277,7 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 else if(userNumber != recorder && counter == 2) {
 
                     secondRecorder = userNumber;
-                    String stringUserCount = String.valueOf(userNumber);
+                    stringUserCount = String.valueOf(userNumber);
                     attemptTextView = findViewById(R.id.attemptTextView);
                     pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Photo").getValue().toString();
                     String cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Name").getValue().toString();
@@ -294,7 +304,7 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 }
                 else if(userNumber != recorder && counter == 1 && userNumber!= secondRecorder){
                     secondRecorder = userNumber;
-                    String stringUserCount = String.valueOf(userNumber);
+                    stringUserCount = String.valueOf(userNumber);
                     attemptTextView = findViewById(R.id.attemptTextView);
                     pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Photo").getValue().toString();
                     cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User" + stringUserCount).child("Name").getValue().toString();
