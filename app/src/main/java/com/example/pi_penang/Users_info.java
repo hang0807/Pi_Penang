@@ -51,14 +51,13 @@ public class Users_info extends AppCompatActivity implements View.OnClickListene
         mAuth = FirebaseAuth.getInstance();
 
         final String user_id = mAuth.getCurrentUser().getUid();
-        final DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("Users").child(user_id).child("name").exists()) {
+                if (dataSnapshot.child("Users").child(user_id).exists()) {
                     String name = dataSnapshot.child("Users").child(user_id).child("name").getValue().toString();
                     String phone = dataSnapshot.child("Users").child(user_id).child("phone number").getValue().toString();
                     String address = dataSnapshot.child("Users").child(user_id).child("address").getValue().toString();
@@ -89,15 +88,13 @@ public class Users_info extends AppCompatActivity implements View.OnClickListene
     }
 
     private void SaveInfo() {
-        final String Name = editTextName.getText().toString();
-        final String PhNumber = editTextPhNumber.getText().toString();
-        final String Address = editTextAddress.getText().toString();
+        String Name = editTextName.getText().toString();
+        String PhNumber = editTextPhNumber.getText().toString();
+        String Address = editTextAddress.getText().toString();
 
 
-        final String user_id = mAuth.getCurrentUser().getUid();
-        final DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
+        String user_id = mAuth.getCurrentUser().getUid();
+        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
 
         if(Name.isEmpty()) {
             editTextName.setError("Name is required");
@@ -128,6 +125,7 @@ public class Users_info extends AppCompatActivity implements View.OnClickListene
         }
 
         startActivity(new Intent(Users_info.this,Pi_laundry.class));
+        finish();
 
 
     }

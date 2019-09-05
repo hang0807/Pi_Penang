@@ -5,14 +5,14 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Pi Penang"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Home_page"></activity>
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        <activity android:name=".order_history"></activity>
+        <activity android:name=".Home_page" />
         <activity android:name=".final_order" />
         <activity android:name=".cooker_info" />
-        <activity android:name=".UserProfile" />
         <activity android:name=".Users_info" />
         <activity android:name=".Pi_laundry" />
         <activity android:name=".Register_page" />

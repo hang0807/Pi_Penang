@@ -25,6 +25,9 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
     static String categoryNeeded = Pi_laundry.theCategory();
     static String stringUserCount;
     static String sideNoteFinal;
+    static String deliveryImage;
+    static String nameDelivery;
+    static String phoneNumberDelivery;
     TextView attemptTextView;
     String finalNumber ;
     Random newRandom = new Random();
@@ -70,22 +73,27 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
         menu1 = findViewById(R.id.menu1);
         menu2 = findViewById(R.id.menu2);
         menu3 = findViewById(R.id.menu3);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         final ImageView img = (ImageView)findViewById(R.id.cookerImageView);
         final TextView cookerNameEditText = (TextView)findViewById((R.id.cookerNameEditText));
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long count= dataSnapshot.child("Cookers Info").child(categoryNeeded).getChildrenCount();
+                long childrenCount = dataSnapshot.child("Delivery Info").getChildrenCount();
                 int newCount=(int)count;
                 int userNumber = newRandom.nextInt(newCount);
                 userNumber += 1;
                 stringUserCount = String.valueOf(userNumber);
                 recorder = userNumber;
+
+                Random newRandom = new Random();
+                int latestNewCount = (int) childrenCount;
+                int userId = newRandom.nextInt(latestNewCount);
+                userId += 1;
+                String UserCount = String.valueOf(userId);
+
+
                 pic = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Photo").getValue().toString();
                 cookerName = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Name").getValue().toString();
                 phoneNumber = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Phone Number").getValue().toString();
@@ -93,6 +101,11 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
                 menuOne = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("1").getValue().toString();
                 menuTwo = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("2").getValue().toString();
                 menuThree = dataSnapshot.child("Cookers Info").child(categoryNeeded).child("User"+stringUserCount).child("Menu").child("3").getValue().toString();
+
+                deliveryImage= dataSnapshot.child("Delivery Info").child("User" + UserCount).child("Photo").getValue().toString();
+                nameDelivery = dataSnapshot.child("Delivery Info").child("User" + UserCount).child("Name").getValue().toString();
+                phoneNumberDelivery = dataSnapshot.child("Delivery Info").child("User" + UserCount).child("Phone Number").getValue().toString();
+
                 menu1.setText(menuOne);
                 menu2.setText(menuTwo);
                 menu3.setText(menuThree);
@@ -105,6 +118,11 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -227,6 +245,12 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
 
     public static String getSideNotes(){return sideNoteFinal;}
 
+    public static String getDeliveryImage(){return deliveryImage;}
+
+    public static String getNameDelivery(){return nameDelivery;}
+
+    public static String getPhoneNumberDelivery(){return phoneNumberDelivery;}
+
     public void orderButton(){
         quantityOne = findViewById(R.id.quantityOne);
         quantityTwo = findViewById(R.id.quantityTwo);
@@ -260,7 +284,7 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
         quantityTwo = findViewById(R.id.quantityTwo);
         quantityThree = findViewById(R.id.quantityThree);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long count= dataSnapshot.child("Cookers Info").child(categoryNeeded).getChildrenCount();
