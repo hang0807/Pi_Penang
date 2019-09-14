@@ -1,5 +1,6 @@
 package com.example.pi_penang;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.solver.widgets.Snapshot;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AndroidException;
 import android.util.Log;
@@ -37,6 +39,30 @@ public class Users_info extends AppCompatActivity implements View.OnClickListene
     EditText editTextName, editTextPhNumber,editTextAddress;
     private FirebaseAuth mAuth;
     private static final String TAG = "Users_info";
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit to Home Page?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        FirebaseAuth.getInstance().signOut();
+                        Users_info.this.finish();
+                        Intent i = new Intent(Users_info.this, Home_page.class);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

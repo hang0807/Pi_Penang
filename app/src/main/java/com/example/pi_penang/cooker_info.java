@@ -1,7 +1,9 @@
 package com.example.pi_penang;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +57,29 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit to Home Page?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        FirebaseAuth.getInstance().signOut();
+                        cooker_info.this.finish();
+                        Intent i = new Intent(cooker_info.this, Home_page.class);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,7 +287,6 @@ public class cooker_info extends AppCompatActivity implements View.OnClickListen
 
         if (quantity1final.equals("0") && quantity2final.equals("0") && quantity3final.equals("0")) {
             Toast.makeText(getApplicationContext(),"Please clarify the quantity of your food!",Toast.LENGTH_LONG).show();
-
         }else{
             quantity1 = quantityOne.getText().toString();
             quantity2 = quantityTwo.getText().toString();

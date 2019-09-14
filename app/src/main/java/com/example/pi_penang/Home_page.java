@@ -67,6 +67,7 @@ public class Home_page extends AppCompatActivity implements View.OnClickListener
                             Intent i = new Intent(Home_page.this, final_order.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
+                            finish();
                             triggle = "Done";
                         }
                         else{
@@ -80,16 +81,17 @@ public class Home_page extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.orderAgain:
                 mAuth = FirebaseAuth.getInstance();
-                final String user_id2 = mAuth.getCurrentUser().getUid();
                 final FirebaseDatabase database2 = FirebaseDatabase.getInstance();
                 DatabaseReference myRef2 = database2.getReference();
 
                 myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final String user_id2 = mAuth.getCurrentUser().getUid();
                         if(!dataSnapshot.child("Orders").child(user_id2).exists()) {
                             Intent newIntent = new Intent(Home_page.this, Users_info.class);
                             startActivity(newIntent);
+                            finish();
                             triggle = "None";
                         }
                         else{

@@ -120,7 +120,7 @@ public class Pi_laundry extends AppCompatActivity implements View.OnClickListene
         String uamount = amountSpinner.getSelectedItem().toString();
         String ucategory = cateSpinner.getSelectedItem().toString();
 
-        if(!utime.equals("Time range") || !uamount.equals("Amount of unit") || !ucategory.equals("Category of food") ){
+        if(!utime.equals("Time range") && !uamount.equals("Amount of unit") && !ucategory.equals("Category of food") ){
                 if(yesCheckBox.isChecked() || noCheckBox.isChecked()) {
                     if(yesCheckBox.isChecked()){
                         deliveryDemand = true;
